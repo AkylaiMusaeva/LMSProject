@@ -34,8 +34,6 @@ public class Main {
         StudentServiceImpl studentService=new StudentServiceImpl(datebase,groupService);
         LessonServiceImpl lessonService=new LessonServiceImpl(datebase);
 
-        //  StudentServiceImpl studentService=new StudentServiceImpl(groupService);
-
         int num,num1;
         Long groupCounter=0L;
         Long studentCounter=0L;
@@ -102,14 +100,22 @@ public class Main {
                                                 System.out.println(groupService.getGroupByName(groupService.getGroups(), grName));
                                                 break;
                                             case 3:
-                                                System.out.println("Input a group name you want to update");
-                                                String oldGroupName = scannerWord.nextLine();
-                                                System.out.println("Create a new name");
-                                                String newGroupName = scannerWord.nextLine();
-                                                System.out.println("Write a description to a new group");
-                                                String newGroupDescription = scannerWord.nextLine();
-                                                System.out.println(groupService.updateGroupName(oldGroupName, new Group(newGroupName,
-                                                        newGroupDescription, datebase.getLessons(), datebase.getStudents())));
+                                                try {
+                                                    System.out.println("Input a group name you want to update");
+                                                    String oldGroupName = scannerWord.nextLine();
+                                                    System.out.println("Create a new name");
+                                                    String newGroupName = scannerWord.nextLine();
+                                                    if(newGroupName.equalsIgnoreCase(oldGroupName)){
+                                                        throw new CheckInfo("New name can't be the same as old name.\nTry again");
+                                                    }
+                                                    System.out.println("Write a description to a new group");
+                                                    String newGroupDescription = scannerWord.nextLine();
+                                                    System.out.println(groupService.updateGroupName(oldGroupName, new Group(newGroupName,
+                                                            newGroupDescription, datebase.getLessons(), datebase.getStudents())));
+
+                                                }catch (CheckInfo e){
+                                                    System.out.println(e.getMessage());
+                                                }
                                                 break;
                                             case 4:
                                                 System.out.println(groupService.getAllGroups());
@@ -132,8 +138,8 @@ public class Main {
                                                     String studentEmail = scannerWord.nextLine();
                                                     if(studentEmail.isEmpty()){
                                                         throw new CheckInfo("Email can't be empty.\nTry again");
-                                                    }else if (!studentEmail.contains("@")) {
-                                                        throw new CheckInfo("Email should contain '@'.\nTry again");
+                                                    }else if (!studentEmail.contains("@") || !studentEmail.contains(".")  ) {
+                                                        throw new CheckInfo("Email should contain '@' and 'dot'.\nTry again");
                                                     }
                                                     System.out.println("Create a new password with the length at least of 7 symbols");
                                                     String studentEmailPassword = scannerWord.nextLine();
@@ -219,13 +225,23 @@ public class Main {
                                                 studentService.deleteStudentByEmail(groupService.getGroups(), studentEmailToDelete);
                                                 break;
                                             case 11:
-                                                System.out.println("Input group name to add lessons");
-                                                String groupNameToAddLessons = scannerWord.nextLine();
-                                                System.out.println("Input lesson name");
-                                                String lessonName = scannerWord.nextLine();
-                                                System.out.println("Write a lesson description");
-                                                String lessonDescription = scannerWord.nextLine();
-                                                System.out.println(lessonService.addNewLessonToGroup(groupService.getGroups(),groupNameToAddLessons, new Lesson(++lessonCounter, lessonName, lessonDescription)));
+                                                try {
+                                                    System.out.println("Input group name to add lessons");
+                                                    String groupNameToAddLessons = scannerWord.nextLine();
+                                                    System.out.println("Input lesson name");
+                                                    String lessonName = scannerWord.nextLine();
+                                                    if(lessonName.isEmpty()){
+                                                        throw new CheckInfo("Lesson name can'be empty.\nTry again");
+                                                    }
+                                                    System.out.println("Write a lesson description");
+                                                    String lessonDescription = scannerWord.nextLine();
+                                                    if(lessonDescription.isEmpty()){
+                                                        throw new CheckInfo("Lesson description can't be empty");
+                                                    }
+                                                    System.out.println(lessonService.addNewLessonToGroup(groupService.getGroups(), groupNameToAddLessons, new Lesson(++lessonCounter, lessonName, lessonDescription)));
+                                                }catch (CheckInfo e){
+                                                    System.out.println(e.getMessage());
+                                                }
                                                 break;
                                             case 12:
                                                 System.out.println("Input lesson name to get info about it");
@@ -284,169 +300,3 @@ public class Main {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//public class Main{
-//    public static void main(String[] args) {
-//        Scanner scannerNum=new Scanner(System.in);
-//        Scanner scannerWord=new Scanner(System.in);
-//        Datebase datebase=new Datebase();
-//        GroupServiceImpl groupService=new GroupServiceImpl(datebase);
-//      //  StudentServiceImpl studentService=new StudentServiceImpl(groupService);
-//        StudentServiceImpl studentService=new StudentServiceImpl(datebase,groupService);
-//        LessonServiceImpl lessonService=new LessonServiceImpl(datebase);
-//        int num;
-//        Long groupCounter=0L;
-//        Long studentCounter=0L;
-//        Long lessonCounter=0L;
-//        Person person=new Person(1L,"admin","admonova","admin@gmail.com","admin123", Gender.FEMALE);
-//
-//
-//        while(true){
-//            System.out.println("""
-//            ---------------------------------------------------------------------------------------
-//            -----------------------------------Choose operation------------------------------------
-//            ---------------------------------------------------------------------------------------
-//            1 -> Add new group                              9  -> Get all student's lesson
-//            2 -> Get group by name                          10 -> Delete student
-//            3 -> Update group name                          11 -> Add new lesson to group
-//            4 -> Get all groups                             12 -> Get lesson by name
-//            5 -> Add new student to group                   13 -> Get all lesson by group name
-//            6 -> Update student                             14 -> Delete lesson
-//            7 -> Find student by first name                 15 -> Delete group
-//            8 -> Get all students by group name             16 -> Exit
-//            """);
-//            switch(num=scannerNum.nextInt()){
-//                case 1:
-//                    System.out.println("Input group name");
-//                    String name=scannerWord.nextLine();
-//                    System.out.println("Input description");
-//                    String description=scannerWord.nextLine();
-//                    System.out.println(groupService.addNewGroup(new Group(++groupCounter, name, description, datebase.getLessons(), datebase.getStudents())));
-//                    break;
-//                case 2:
-//                    System.out.println("Input group name you want to find");
-//                    String grName=scannerWord.nextLine();
-//                    System.out.println(groupService.getGroupByName(datebase.getGroups(), grName));
-//                    break;
-//                case 3:
-//                    System.out.println("Input a group name you want to update");
-//                    String oldGroupName=scannerWord.nextLine();
-//                    System.out.println("Create a new name");
-//                    String newGroupName=scannerWord.nextLine();
-//                    System.out.println("Write a description to a new group");
-//                    String newGroupDescription=scannerWord.nextLine();
-//                    System.out.println(groupService.updateGroupName(oldGroupName,new Group(newGroupName,
-//                            newGroupDescription,datebase.getLessons(),datebase.getStudents())));
-//                    break;
-//                case 4:
-//                    System.out.println(groupService.getAllGroups(datebase.getGroups()));
-//                    break;
-//                case 5:
-//                    System.out.println("Input a group name,you want to add students to");
-//                    String groupName=scannerWord.nextLine();
-//                    System.out.println("Input student's name");
-//                    String studentName=scannerWord.nextLine();
-//                    System.out.println("Input student's last name");
-//                    String studentLastName=scannerWord.nextLine();
-//                    System.out.println("Input student's email");
-//                    String studentEmail=scannerWord.nextLine();
-//                    System.out.println("Create a new password with the length at least of 7 symbols");
-//                    String studentEmailPassword=scannerWord.nextLine();
-////                    System.out.println("Input a student's gender");
-////                    String gender=scannerWord.nextLine();
-//                    studentService.addNewStudentToGroup(groupName,
-//                            new Student(1L,studentName,studentLastName,studentEmail,studentEmailPassword,Gender.FEMALE));
-//                    break;
-//                case 6:
-//                    System.out.println("Input student's email you want to update");
-//                    String oldStudentEmail=scannerWord.nextLine();
-//                    System.out.println("Input new student's first name");
-//                    String newStudentFirstName=scannerWord.nextLine();
-//                    System.out.println("Input new student's last name");
-//                    String newStudentLastName=scannerWord.nextLine();
-//                    System.out.println("Input new student's email");
-//                    String newStudentEmail=scannerWord.nextLine();
-//                    System.out.println("Create a password for a new student");
-//                    String newStudentPassword=scannerWord.nextLine();
-////                    System.out.println("Input new student's gender");
-////                    String newStudentGender=scannerWord.nextLine();
-//                    System.out.println(studentService.updateStudent(oldStudentEmail,
-//                            new Student(newStudentFirstName, newStudentLastName,
-//                                    newStudentEmail, newStudentPassword, Gender.FEMALE)));
-//                    break;
-//                case 7:
-//                    System.out.println("Input a student name");
-//                    String nameToFindStudent=scannerWord.nextLine();
-//                    studentService.findStudentByFirstName(datebase.getGroups(),nameToFindStudent);
-//                    break;
-//                case 8:
-//                    System.out.println("Input a group name to get students from there");
-//                    String groupNameToGetStudents=scannerWord.nextLine();
-//                    System.out.println(studentService.getAllStudentsByGroupName(datebase.getGroups(), groupNameToGetStudents));
-//                    break;
-//                case 9:
-//                    System.out.println("Input student's email to get his lessons");
-//                    String studentEmailToGetLesson=scannerWord.nextLine();
-//                    studentService.getAllStudentLesson(datebase.getGroups(),studentEmailToGetLesson);
-//                    break;
-//                case 10:
-//                    System.out.println("Input student's email you want to delete");
-//                    String studentEmailToDelete=scannerWord.nextLine();
-//                    studentService.deleteStudentByEmail(datebase.getGroups(),studentEmailToDelete);
-//                    break;
-//                case 11:
-//                    System.out.println("Input group name to add lessons");
-//                    String groupNameToAddLessons=scannerWord.nextLine();
-//                    System.out.println("Input lesson name");
-//                    String lessonName=scannerWord.nextLine();
-//                    System.out.println("Write a lesson description");
-//                    String lessonDescription=scannerWord.nextLine();
-//                    System.out.println(lessonService.addNewLessonToGroup(groupNameToAddLessons, new Lesson(++lessonCounter, lessonName, lessonDescription)));
-//                    break;
-//                case 12:
-//                    System.out.println("Input lesson name to get info about it");
-//                    String lessonNameToGet=scannerWord.nextLine();
-//                    System.out.println(lessonService.getLessonByName(datebase.getGroups(), lessonNameToGet));
-//                    break;
-//                case 13:
-//                    System.out.println("Input a group name to get all lessons from there");
-//                    String groupNameToGetAllLessons=scannerWord.nextLine();
-//                    System.out.println(lessonService.getAllLessonByGroupName(datebase.getGroups(), groupNameToGetAllLessons));
-//                    break;
-//                case 14:
-//                    System.out.println("Input lesson name you want to delete");
-//                    String lessonNameToDelete=scannerWord.nextLine();
-//                    lessonService.deleteLessonByName(datebase.getGroups(),lessonNameToDelete);
-//                    break;
-//                case 15:
-//                    System.out.println("Write a group name you want to delete");
-//                    String groupNameToDelete=scannerWord.nextLine();
-//                    groupService.deleteGroupByName(datebase.getGroups(),groupNameToDelete);
-//                    break;
-//            }
-//        }
-//    }
-//}
