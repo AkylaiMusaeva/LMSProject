@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Datebase {
-    private List<Group>groups=new ArrayList<>();
-    private List<Student> students=new ArrayList<>();
-    private List<Lesson>lessons=new ArrayList<>();
+    private List<Group> groups = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
+    private List<Lesson> lessons = new ArrayList<>();
+
+    public Datebase() {
+    }
 
     public List<Group> getGroups() {
         return groups;
     }
-
     public void setGroups(List<Group> groups) {
         this.groups = groups;
     }

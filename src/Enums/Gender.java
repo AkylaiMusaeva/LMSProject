@@ -1,6 +1,11 @@
 package Enums;
 
 public enum Gender {
-    FEMALE,
-    MALE;
+    FEMALE("FEMALE"),
+    MALE("MALE");
+    final String gender;
+
+    Gender(String gender) {
+        this.gender = gender;
+    }
 }

@@ -1,5 +1,6 @@
 package service.serviceImpl;
 
+import Enums.Gender;
 import model.Datebase;
 import model.Group;
 import model.Lesson;
@@ -8,44 +9,94 @@ import service.CheckInfo;
 import service.GroupService;
 import service.StudentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
-    //    private final GroupService groupService;
+      private final GroupService groupService;
 //    public StudentServiceImpl(GroupService groupService){
 //        this.groupService=groupService;
 //    }
     private Datebase datebase = new Datebase();
 
-    public StudentServiceImpl(Datebase datebase) {
+    public StudentServiceImpl(Datebase datebase, GroupService groupService) {
         this.datebase = datebase;
+        this.groupService=groupService;
     }
 
     @Override
-    public void addNewStudentToGroup(List<Group> groups, String groupName, Student student) {
-//        Group group=groupService.getGroupByName(groups,groupName);
+    public void addNewStudentToGroup(String groupName, Student student) {
+        }
+
+
+
+//        Group group = groupService.getGroupByName(groupName);
+//        System.out.println(group);
+//        group.getStudents().add(student);
+//        System.out.println(student);
+//        System.out.println("Successfully saved a new student");
+
+
+//        Group group = groupService.getGroupByName(groupName);
 //        group.setStudent(student);
 //        System.out.println(student);
 //        System.out.println("Successfully saved a new student");
 
-        int count = 0;
-        for (int i = 0; i < groups.size(); i++) {
-            for (Group gr : datebase.getGroups()) {
-                if (gr.getGroupName().equalsIgnoreCase(groupName)) {
 
-//            if (groups.get(i).getGroupName().equalsIgnoreCase(groupName)) {
-                    datebase.getStudents().add(student);
-                    count++;
-                    groups.get(i).getStudents().add(student);
-                    System.out.println(student);
-                    System.out.println("ok");
-                }
-                System.out.println("Successfully saved a new student");
-                System.out.println(count);
-                System.out.println(i + "index1");
-            }
-        }
-    }
+//        boolean b = false;
+//        try {
+//            for (Group g : datebase.getGroups()) {
+//                if (g.getGroupName().equalsIgnoreCase(groupName)) {
+//                    g.getStudents().add(student);
+//                    b = true;
+//                    System.out.println(student);
+//                    System.out.println("Successfully saved a new student");
+//                    break;
+//                } else {
+//                    b = false;
+//                }
+//            }
+//            if (b == false) {
+//                throw new CheckInfo("There is no such group name.\nTry again");
+//            }
+//
+//        } catch (CheckInfo e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public Student updateStudent(String oldStudentEmail, Student newStudent) {
@@ -66,7 +117,7 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
             if (b == false) {
-                throw new CheckInfo("There is no such student email in database to update");
+                throw new CheckInfo("There is no such student email in database to update.\nTry again");
             }
         } catch (CheckInfo e) {
             System.out.println(e.getMessage());
@@ -81,7 +132,7 @@ public class StudentServiceImpl implements StudentService {
             for (Group g : groups) {
                 for (Student s : g.getStudents())
                     if (name.equalsIgnoreCase(s.getFirstName())) {
-                        System.out.println(g);
+                        System.out.println(s);
                         b = true;
                         break;
                     } else {
@@ -89,7 +140,7 @@ public class StudentServiceImpl implements StudentService {
                     }
             }
             if (b == false) {
-                throw new CheckInfo("There is no student with such name");
+                throw new CheckInfo("There is no student with such name.\nTry again");
             }
         } catch (CheckInfo e) {
             System.out.println(e.getMessage());
@@ -109,7 +160,7 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
             if (b == false) {
-                throw new CheckInfo("Not found group with inputed name");
+                throw new CheckInfo("Not found group with inputed name.\nTry again");
             }
         } catch (CheckInfo e) {
             System.out.println(e.getMessage());
@@ -133,7 +184,7 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
             if(b==false){
-                throw new CheckInfo("There is no a student with such email");
+                throw new CheckInfo("There is no a student with such email.\nTry again");
             }
         }catch (CheckInfo e){
             System.out.println(e.getMessage());
@@ -150,6 +201,7 @@ public class StudentServiceImpl implements StudentService {
                     if(s.getEmail().equalsIgnoreCase(studentEmail)){
                         g.getStudents().remove(s);
                         System.out.printf("Student with email %s has successfully deleted",s.getEmail());
+                        System.out.println();
                         b=true;
                         break;
                     }else {
@@ -158,7 +210,7 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
             if(b==false){
-                throw new CheckInfo("There is no a student with such email");
+                throw new CheckInfo("There is no a student with such email.\nTry again");
             }
         }catch (CheckInfo e){
             System.out.println(e.getMessage());

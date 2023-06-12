@@ -10,8 +10,8 @@ public class Student {
     private String lastName;
     private String email;
     private String password;
-    private Gender gender;
-    public Student(Long id, String firstName, String lastName, String email, String password, Gender gender) {
+    private String gender;
+    public Student(Long id, String firstName, String lastName, String email, String password, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,7 +20,7 @@ public class Student {
         this.gender = gender;
     }
 
-    public Student(String firstName, String lastName, String email, String password, Gender gender) {
+    public Student(String firstName, String lastName, String email, String password, String  gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -68,11 +68,11 @@ public class Student {
         this.password = password;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String  gender) {
         this.gender = gender;
     }
 
@@ -96,6 +96,6 @@ public class Student {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", gender=" + gender +
-                '}';
+                '}'+"\n";
     }
 }

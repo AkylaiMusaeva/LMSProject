@@ -8,6 +8,11 @@ public class Lesson {
 
     }
 
+    public Lesson(String lessonName, String description) {
+        this.lessonName = lessonName;
+        this.description = description;
+    }
+
     public Lesson(Long id, String lessonName, String description) {
         this.id = id;
         this.lessonName = lessonName;
@@ -40,9 +45,10 @@ public class Lesson {
 
     @Override
     public String toString() {
-        return "Lesson" +
-                "\nid=" + id +
-                "\nlessonName='" + lessonName +
-                "\ndescription='" + description + "\n";
+        return "Lesson{" +
+                "id=" + id +
+                ", lessonName='" + lessonName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

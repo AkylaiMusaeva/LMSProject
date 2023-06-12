@@ -64,12 +64,8 @@ public class Group {
     }
 
     public List<Student> getStudents() {
-        if(this.students==null){
-            this.students=new ArrayList<>();
-        }
         return students;
     }
-
     public void setStudents(List<Student> students) {
         this.students = students;
     }
@@ -78,9 +74,7 @@ public class Group {
             this.students=new ArrayList<>();
         }
         this.students.add(student);
-
     }
-
     @Override
     public String toString() {
         return "Group:" +
